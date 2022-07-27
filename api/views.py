@@ -5,20 +5,58 @@ from django.views.decorators.http import require_http_methods
 
 from .models import User, Rates, Port
 from django.core import serializers
+from rest_framework import serializers as restSerializers
 # Create your views here.
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseServerError
 from django.contrib.auth import authenticate, login, logout
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+
+
+class TokenSerializer(restSerializers.Serializer):
+    key = restSerializers.CharField(max_length=60)
 
 
 @require_http_methods(["POST"])
 def login_user(request):
     req = json.loads(request.body)
-    user = authenticate(request, username=req["username"], password=req["password"])
+    user = authenticate(
+        request, username=req["username"], password=req["password"])
     if user is not None:
-        login(request, user)
-        return JsonResponse({"status": "Success"}, status=200)
+        token = Token.objects.filter(user=user).first()
+        token_data = TokenSerializer(token).data
+        print('login', token, token_data)
+
+        data = {
+            'token': token_data['key'],
+            'is_new_user': False,
+            'status_code': 200
+        }
+
     else:
-        return JsonResponse({"status": "Invalid Credentials"}, status=401)
+        existing_user = User.objects.filter(
+            username=req['username']).first()
+
+        if existing_user is not None:
+            data = {
+                'error': 'Invalid Credentials',
+                'status_code': 401
+            }
+
+        else:
+            new_user = User.objects.create(
+                username=req['username'], password=req['password'])
+            token = Token.objects.create(user=new_user)
+            token_data = TokenSerializer(token).data
+
+            data = {
+                'token': token_data['key'],
+                'is_new_user': True,
+                'status_code': 200
+            }
+
+    return JsonResponse(data=data)
 
 
 def logout_user(request):
