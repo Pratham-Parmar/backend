@@ -99,8 +99,8 @@ def search(request):
     if req["destination"] is not None:
         query = query.filter(destination=request["destination"])
 
-    # if req["line"] is not None:
-    #     query = query.filter(line=request["line"])
+    ## if req["line"] is not None:
+    ##     query = query.filter(line=request["line"])
 
     if req["container_size"] is not None:
         query = query.filter(container_size=request["container_size"])
