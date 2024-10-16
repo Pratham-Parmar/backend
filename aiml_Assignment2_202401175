@@ -1,0 +1,174 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyP0BdOR0k8ag0qhHw6YNDnn",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Pratham-Parmar/backend/blob/master/aiml_Assignment2_202401175\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "jaes0Au9E-E0"
+      },
+      "outputs": [],
+      "source": [
+        "import pandas as pd\n",
+        "\n",
+        "MLR_df = pd.read_csv('MLRCat.csv')\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# prompt: generate a linear regression model taking HS, UG, PG independent variables and Salary as dependent variable\n",
+        "\n",
+        "import statsmodels.formula.api as sm\n",
+        "\n",
+        "# Define the model formula\n",
+        "model_formula = 'Salary ~ HS + UG + PG'\n",
+        "\n",
+        "# Fit the linear regression model\n",
+        "model = sm.ols(formula=model_formula, data=MLR_df).fit()\n",
+        "\n",
+        "# Print the model summary\n",
+        "print(model.summary())\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OzERQBuvG9nS",
+        "outputId": "4fb1f318-8dc3-4e35-f980-3e6846bd380a"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "                            OLS Regression Results                            \n",
+            "==============================================================================\n",
+            "Dep. Variable:                 Salary   R-squared:                       0.717\n",
+            "Model:                            OLS   Adj. R-squared:                  0.685\n",
+            "Method:                 Least Squares   F-statistic:                     21.98\n",
+            "Date:                Wed, 16 Oct 2024   Prob (F-statistic):           2.66e-07\n",
+            "Time:                        16:15:19   Log-Likelihood:                -279.62\n",
+            "No. Observations:                  30   AIC:                             567.2\n",
+            "Df Residuals:                      26   BIC:                             572.8\n",
+            "Df Model:                           3                                         \n",
+            "Covariance Type:            nonrobust                                         \n",
+            "==============================================================================\n",
+            "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
+            "------------------------------------------------------------------------------\n",
+            "Intercept   7383.3333   1184.793      6.232      0.000    4947.957    9818.710\n",
+            "HS          5437.6667   1498.658      3.628      0.001    2357.132    8518.202\n",
+            "UG          9860.4167   1567.334      6.291      0.000    6638.716    1.31e+04\n",
+            "PG          1.235e+04   1675.550      7.371      0.000    8905.857    1.58e+04\n",
+            "==============================================================================\n",
+            "Omnibus:                        9.791   Durbin-Watson:                   1.176\n",
+            "Prob(Omnibus):                  0.007   Jarque-Bera (JB):                8.696\n",
+            "Skew:                           0.998   Prob(JB):                       0.0129\n",
+            "Kurtosis:                       4.724   Cond. No.                         5.34\n",
+            "==============================================================================\n",
+            "\n",
+            "Notes:\n",
+            "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pandas as pd\n",
+        "\n",
+        "MLR_df = pd.read_csv('MLRInt.csv')\n"
+      ],
+      "metadata": {
+        "id": "TXcFjkFAHfCr"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# prompt: Generate a linear regression model, keeping Gender, WE, GenderWE as independent variable and salary as dependent variable\n",
+        "\n",
+        "# Define the model formula\n",
+        "model_formula = 'Salary ~ Gender + WE + GenderWE'\n",
+        "\n",
+        "# Fit the linear regression model\n",
+        "model = sm.ols(formula=model_formula, data=MLR_df).fit()\n",
+        "\n",
+        "# Print the model summary\n",
+        "print(model.summary())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "rHqJjPWHHn-N",
+        "outputId": "ea0491ec-2af4-4c79-f3d2-a1319b2c3fc3"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "                            OLS Regression Results                            \n",
+            "==============================================================================\n",
+            "Dep. Variable:                 Salary   R-squared:                       0.918\n",
+            "Model:                            OLS   Adj. R-squared:                  0.909\n",
+            "Method:                 Least Squares   F-statistic:                     97.26\n",
+            "Date:                Wed, 16 Oct 2024   Prob (F-statistic):           2.96e-14\n",
+            "Time:                        16:18:29   Log-Likelihood:                -283.96\n",
+            "No. Observations:                  30   AIC:                             575.9\n",
+            "Df Residuals:                      26   BIC:                             581.5\n",
+            "Df Model:                           3                                         \n",
+            "Covariance Type:            nonrobust                                         \n",
+            "==============================================================================\n",
+            "                 coef    std err          t      P>|t|      [0.025      0.975]\n",
+            "------------------------------------------------------------------------------\n",
+            "Intercept   1.344e+04   1539.893      8.730      0.000    1.03e+04    1.66e+04\n",
+            "Gender     -7757.7508   2717.884     -2.854      0.008   -1.33e+04   -2171.059\n",
+            "WE          3523.5465    383.643      9.184      0.000    2734.956    4312.137\n",
+            "GenderWE   -2913.9080    744.214     -3.915      0.001   -4443.662   -1384.154\n",
+            "==============================================================================\n",
+            "Omnibus:                        9.116   Durbin-Watson:                   0.631\n",
+            "Prob(Omnibus):                  0.010   Jarque-Bera (JB):                7.657\n",
+            "Skew:                          -1.167   Prob(JB):                       0.0217\n",
+            "Kurtosis:                       3.825   Cond. No.                         20.3\n",
+            "==============================================================================\n",
+            "\n",
+            "Notes:\n",
+            "[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
